@@ -2,17 +2,24 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Home from '../views/Home.vue'
+import Questions from '../views/Questions.vue'
+import AddQuestion from '../views/AddQuestion.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import store from '../store'
 
 Vue.use(VueRouter)
 
+const tryAutoLogin = (next) => {
+  store.dispatch('tryAutoLogin')
+  if (store.state.authToken) {
+    next()
+  } else {  
+    next('/login')
+  }
+}
+
 const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home
-  },
   {
     path: '/login',
     name: 'login',
@@ -22,7 +29,27 @@ const routes = [
     path: '/register',
     name: 'register',
     component: Register
-  }
+  },
+  {
+    path: '/',
+    name: 'home',
+    component: Home,
+    beforeEnter (to, from, next) {
+      tryAutoLogin(next)
+    },
+    children: [
+      {
+        path: '/',
+        name: 'questions',
+        component: Questions
+      },
+      {
+        path: '/add-question',
+        name: 'add-question',
+        component: AddQuestion
+      }
+    ]
+  }  
   // {
   //   path: '/about',
   //   name: 'about',

@@ -6,6 +6,14 @@ const endpoints = {
   login: {
     method: 'post',
     url: '/login/'
+  },
+  questions: {
+    method: 'get',
+    url: '/api/v1/questions/'
+  },
+  createQuestion: {
+    method: 'post',
+    url: '/api/v1/questions/'
   }
 }
 
