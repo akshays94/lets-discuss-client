@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import Home from '../views/Home.vue'
 import Questions from '../views/Questions.vue'
+import Question from '../views/Question.vue'
 import AddQuestion from '../views/AddQuestion.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
@@ -42,6 +43,12 @@ const routes = [
         path: '/',
         name: 'questions',
         component: Questions
+      },
+      {
+        path: '/questions/:questionId',
+        name: 'question',
+        component: Question,
+        props: true
       },
       {
         path: '/add-question',

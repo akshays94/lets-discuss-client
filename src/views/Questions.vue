@@ -14,34 +14,15 @@
         Fetching questions ...
       </div>  
       <div v-else class="col-sm-12">
-        <div
-          class="q-box"
-          v-for="question in questions"
-          :key="question.id">
-          <!-- <div class="q-box--vote-action">
-            <arrow-up-bold-icon title="this is an icon!" :size="100" />
-            <ArrowDownBoldIcon/>
-          </div> -->
-          <div class="q-box--details">
-            <div class="q-box--details--title">
-              {{ question.title }}
-            </div>    
-            <div class="q-box--details--content">
-              {{ question.content }}
-            </div>
-            <div>
-              Votes: {{ question.votes }}
-            </div>
-            <div class="q-box--details--askedby">
-              Asked by <a href="">
-                {{ question.created_by.first_name }} {{ question.created_by.last_name }}
-              </a>
-            </div>
-            <div class="q-box--details--actions">
-              <a href="">Upvote</a>&nbsp;&nbsp;
-              <a href="">Downvote</a>
-            </div>  
-          </div>
+        <div v-if="questions.length > 0">
+          <AppQuestionItem             
+            v-for="question in questions"
+            :key="question.id"
+            :question="question"
+            />
+        </div>
+        <div v-else>
+          No questions created
         </div>
       </div>
     </div>
@@ -50,8 +31,12 @@
 
 <script> 
 import Vuex from 'vuex'
+import AppQuestionItem from '../components/QuestionItem'
 
 export default {
+  components: {
+    AppQuestionItem
+  },
   created () {
     this.fetchQuestions()
   },
@@ -80,37 +65,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.q-box {
-  text-align: left;
-  margin-bottom: 24px;
-  display: flex;
-  border: 1px solid lightgray;
-  box-shadow: 0 2px 3px 0 lightgray;
-}
-
-.q-box--vote-action {
-  border: 1px solid purple;
-}
-
-.q-box--details {
-  /* border: 1px solid blue; */
-  padding: 12px;
-}
-
-.q-box--details--title {
-  margin-bottom: 8px;
-  font-weight: bold;
-  font-size: 1.15em;
-}
-
-.q-box--details--content {
-  margin-bottom: 8px;
-}
-
-.q-box--details--askedby {
-  font-size: 0.8em;
-  margin-bottom: 8px;
-}
-</style>
