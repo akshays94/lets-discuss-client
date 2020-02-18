@@ -42,18 +42,20 @@ export default {
   },
   computed: {
     username () {
-      return this.$store.getters.getUser
+      return this.$store.getters['AuthStore/getUser']
     },
     questions () {
-      return this.$store.getters.getQuestions
+      return this.$store.getters['QnaStore/getQuestions']
     },
     isQuestionsLoading () {
-      return this.$store.getters.getQuestionsIsLoading
+      return this.$store.getters['QnaStore/getQuestionsIsLoading']
     }
   },
   methods: {
-    ...Vuex.mapActions([
-      'logoutUser',
+    ...Vuex.mapActions('AuthStore', [
+      'logoutUser'
+    ]),
+    ...Vuex.mapActions('QnaStore', [
       'fetchQuestions'
     ]),
     logout () {

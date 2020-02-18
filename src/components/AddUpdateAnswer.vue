@@ -18,7 +18,7 @@ export default {
     }
   },
   methods: {
-    ...Vuex.mapActions([
+    ...Vuex.mapActions('QnaStore', [
       'createAnswer'
     ]),
     postAnswer () {

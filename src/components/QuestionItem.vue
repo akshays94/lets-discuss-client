@@ -1,13 +1,39 @@
 <template>
   <div
     class="q-box">
-    <!-- <div class="q-box--vote-action">
-      <arrow-up-bold-icon title="this is an icon!" :size="100" />
-      <ArrowDownBoldIcon/>
-    </div> -->
+    
+    <div class="q-box--actions--1">
+      
+      <div 
+        class="q-box--actions--1--btn"
+        :class="{ upvoted: question.is_upvoted }"
+        @click="!question.is_upvoted ? upvoteQuestion({ questionId: question.id }) : revokeVoteQuestion({ questionId: question.id })">
+        <font-awesome-icon 
+          :icon="['fas', 'caret-up']" 
+          size="lg" />
+      </div>
+
+      <div 
+        class="q-box--actions--1--votes"
+        :class="{ upvoted: question.is_upvoted, downvoted: question.is_downvoted }">
+        {{ question.votes }}
+      </div>
+      
+      <div 
+        class="q-box--actions--1--btn"
+        :class="{ downvoted: question.is_downvoted }"
+        @click="!question.is_downvoted ? downvoteQuestion({ questionId: question.id }) : revokeVoteQuestion({ questionId: question.id })">
+        <font-awesome-icon 
+          :icon="['fas', 'caret-down']" 
+          size="lg" />
+      </div>
+    
+    </div>
+
     <div class="q-box--details">
       <div class="q-box--details--title">
-        <router-link
+        
+        #{{ question.id }} <router-link
           :to="{ name: 'question', params: { questionId: question.id } }">
           {{ question.title }}
         </router-link>
@@ -15,39 +41,12 @@
       <div class="q-box--details--content">
         {{ modifiedQuestionContent }}
       </div>
-      <div>
-        Votes: {{ question.votes }}
-      </div>
       <div class="q-box--details--askedby">
-        Asked by <a href="">
+        Posted by <a href="">
           {{ question.created_by.first_name }} {{ question.created_by.last_name }}
         </a>
+        | X mins ago
       </div>
-      <div class="q-box--details--actions">
-        <a
-          v-if="!question.is_upvoted"
-          @click="upvoteQuestion({ questionId: question.id })">
-          Upvote
-        </a>
-        <span
-          v-if="question.is_upvoted"
-          @click="revokeVoteQuestion({ questionId: question.id })"
-          class="voted">
-          Upvoted!
-        </span>
-        &nbsp;&nbsp;
-        <a
-          v-if="!question.is_downvoted"
-          @click="downvoteQuestion({ questionId: question.id })">
-          Downvote
-        </a>
-        <span
-          v-if="question.is_downvoted"
-          @click="revokeVoteQuestion({ questionId: question.id })"
-          class="voted">
-          Downvoted!
-        </span>
-      </div>  
     </div>
   </div>
 </template>
@@ -70,7 +69,7 @@ export default {
     }
   },
   methods: {
-    ...Vuex.mapActions([
+    ...Vuex.mapActions('QnaStore', [
       'upvoteQuestion',
       'downvoteQuestion',
       'revokeVoteQuestion'
@@ -93,8 +92,46 @@ export default {
   box-shadow: 0 2px 3px 0 lightgray;
 }
 
-.q-box--vote-action {
-  border: 1px solid purple;
+.q-box--actions--1 {
+  /* border: 1px solid red; */
+  padding-top: 12px;
+  padding-left: 12px;
+  display: flex;
+}
+
+.q-box--actions--1--votes {
+  /* border: 1px solid black; */
+  font-size: 1.2em;
+  padding: 0 8px;
+}
+
+.q-box--actions--1--votes.upvoted {
+  color: green;
+  font-weight: bold;
+}
+
+.q-box--actions--1--votes.downvoted {
+  color: red;
+  font-weight: bold;
+}
+
+.q-box--actions--1--btn {
+  /* border: 1px solid black; */
+  height: 26px;
+  padding: 0 8px;
+}
+
+.q-box--actions--1--btn.upvoted {
+  color: green;
+}
+
+.q-box--actions--1--btn.downvoted {
+  color: red;
+}
+
+.q-box--actions--1--btn:hover {
+  background: #efefef;
+  cursor: pointer;
 }
 
 .q-box--details {
@@ -114,6 +151,5 @@ export default {
 
 .q-box--details--askedby {
   font-size: 0.8em;
-  margin-bottom: 8px;
 }
 </style>

@@ -46,7 +46,7 @@ export default {
     }
   },
   methods: {
-    ...Vuex.mapActions([
+    ...Vuex.mapActions('QnaStore', [
       'createNewQuestion'
     ]),
     navigateToQuestionsPage () {

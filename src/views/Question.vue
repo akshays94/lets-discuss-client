@@ -13,7 +13,7 @@
             Asked by <a href="">
               {{ questionAuthorName }}
             </a>
-             | X mins ago
+             | X mins ago {{ question.created_on }}
           </div>
           <div class="q-box--actions">
             <a
@@ -66,7 +66,7 @@
                 Posted by <a href="">
                   {{ answer.created_by.first_name }} {{ answer.created_by.last_name }}
                 </a>
-                | X mins ago
+                | X mins ago {{ answer.created_on }}
               </div>
             </div>
           </div>
@@ -105,8 +105,7 @@ export default {
   },
   computed: {
     question () {
-      let theQuestion = this.$store.getters.getQuestion
-      return theQuestion
+      return this.$store.getters['QnaStore/getQuestion']
     },
     questionAuthorName () {
       if (this.question !== undefined) {
@@ -115,19 +114,19 @@ export default {
       return ''
     },
     answers () {
-      return this.$store.getters.getAnswers
+      return this.$store.getters['QnaStore/getAnswers']
     },
     isHiddenAddUpdateAnswer: {
       get () {
-        return this.$store.getters.getIsHiddenAddUpdateAnswer
+        return this.$store.getters['QnaStore/getIsHiddenAddUpdateAnswer']
       },
       set (val) {
-        this.$store.commit('SET_IS_HIDDEN_ADD_UPDATE_ANSWER', val)
+        this.$store.commit('QnaStore/SET_IS_HIDDEN_ADD_UPDATE_ANSWER', val)
       }
     }
   },
   methods: {
-    ...Vuex.mapActions([
+    ...Vuex.mapActions('QnaStore', [
       'fetchQuestion',
       'fetchAnswers',
       'upvoteQuestion',

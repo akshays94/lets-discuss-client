@@ -75,7 +75,7 @@ export default {
     }
   },
   methods: {
-    ...Vuex.mapActions([
+    ...Vuex.mapActions('AuthStore', [
       'registerUser'
     ]),
     navigateToLoginPage () {

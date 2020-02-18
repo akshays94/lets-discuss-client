@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const customAxiosInstance = axios.create({
-  baseURL: 'http://localhost:8000'
+  baseURL: process.env.VUE_APP_API_URL
 })
 
 // const token = localStorage.getItem('token')

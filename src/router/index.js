@@ -12,8 +12,8 @@ import store from '../store'
 Vue.use(VueRouter)
 
 const tryAutoLogin = (next) => {
-  store.dispatch('tryAutoLogin')
-  if (store.state.authToken) {
+  store.dispatch('AuthStore/tryAutoLogin')
+  if (store.state.AuthStore.authToken) {
     next()
   } else {  
     next('/login')
