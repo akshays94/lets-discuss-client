@@ -42,6 +42,10 @@ const endpoints = {
   getQuestionVotes: {
     method: 'get',
     url: '/api/v1/questions/:questionId/votes/'
+  },
+  markAnswerAsCorrect: {
+    method: 'post',
+    url: '/api/v1/answers/:answerId/mark-as-correct/'
   }
 }
 

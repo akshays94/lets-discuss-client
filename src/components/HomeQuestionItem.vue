@@ -2,8 +2,7 @@
   <div
     class="q-box">
     
-    <div class="q-box--actions--1">
-      
+    <div class="q-box--actions--1">      
       <div 
         class="q-box--actions--1--btn"
         :class="{ upvoted: question.is_upvoted }"
@@ -33,7 +32,7 @@
     <div class="q-box--details">
       <div class="q-box--details--title">
         
-        #{{ question.id }} <router-link
+        #{{ question.id }} - <router-link
           :to="{ name: 'question', params: { questionId: question.id } }">
           {{ question.title }}
         </router-link>

@@ -12,6 +12,7 @@ const getDefaultState = () => {
     },
     question: {
       questionItem: {},
+      is_question_votes_loading: false,
       answers: [],
       is_hidden_add_update_answer: true
     }
@@ -25,7 +26,8 @@ const getters = {
   getQuestionsIsLoading: (state) => state.questions.is_loading,
   getQuestion: (state) => state.question.questionItem,
   getAnswers: (state) => state.question.answers,
-  getIsHiddenAddUpdateAnswer: (state) => state.question.is_hidden_add_update_answer
+  getIsHiddenAddUpdateAnswer: (state) => state.question.is_hidden_add_update_answer,
+  getIsQuestionVotesLoading: (state) => state.question.is_question_votes_loading
 }
 
 const mutations = {
@@ -43,6 +45,9 @@ const mutations = {
   },
   SET_IS_HIDDEN_ADD_UPDATE_ANSWER (state, payload) {
     state.question.is_hidden_add_update_answer = payload
+  },
+  SET_IS_QUESTION_VOTES_LOADING (state, payload) {
+    state.question.is_question_votes_loading = payload
   }
 }
 
@@ -182,6 +187,32 @@ const actions = {
       })
   },
 
+  pageUpvoteQuestion ({ commit, dispatch, rootState }, payload) {
+    const { questionId } = payload
+    let { url, method } = endpoints.upvoteQuestion
+
+    url = url.replace(':questionId', questionId)
+    commit('SET_IS_QUESTION_VOTES_LOADING', true)
+
+    axiosAppInstance({
+      method,
+      url,
+      headers: {
+        Authorization: `Token ${rootState.AuthStore.authToken}`
+      }
+    })
+      .then(res => {
+        dispatch('fetchQuestion', {
+          questionId
+        })
+        commit('SET_IS_QUESTION_VOTES_LOADING', false)
+      })
+      .catch(err => {
+        console.log(err)
+        commit('SET_IS_QUESTION_VOTES_LOADING', false)
+      })
+  },
+
   downvoteQuestion ({ getters, dispatch, rootState }, payload) {
     const { questionId } = payload
     let { url, method } = endpoints.downvoteQuestion
@@ -230,6 +261,35 @@ const actions = {
       })
   },
 
+  pageDownvoteQuestion ({ commit, dispatch, rootState }, payload) {
+    const { questionId } = payload
+    let { url, method } = endpoints.downvoteQuestion
+
+    url = url.replace(':questionId', questionId)
+    // console.log('url', url)
+    
+    commit('SET_IS_QUESTION_VOTES_LOADING', true)
+
+    axiosAppInstance({
+      method,
+      url,
+      headers: {
+        Authorization: `Token ${rootState.AuthStore.authToken}`
+      }
+    })
+      .then(res => {
+        // TODO: success message
+        dispatch('fetchQuestion', {
+          questionId
+        })
+        commit('SET_IS_QUESTION_VOTES_LOADING', false)
+      })
+      .catch(err => {
+        console.log(err)
+        commit('SET_IS_QUESTION_VOTES_LOADING', false)
+      })
+  },
+
   revokeVoteQuestion ({ getters, dispatch, rootState }, payload) {
     const { questionId } = payload
     let { url, method } = endpoints.revokeVoteQuestion
@@ -273,6 +333,35 @@ const actions = {
             break
           }
         }
+      })
+  },
+
+  pageRevokeVoteQuestion ({ commit, dispatch, rootState }, payload) {
+    const { questionId } = payload
+    let { url, method } = endpoints.revokeVoteQuestion
+
+    url = url.replace(':questionId', questionId)
+    // console.log('url', url)
+    
+    commit('SET_IS_QUESTION_VOTES_LOADING', true)
+
+    axiosAppInstance({
+      method,
+      url,
+      headers: {
+        Authorization: `Token ${rootState.AuthStore.authToken}`
+      }
+    })
+      .then(res => {
+        // TODO: success message
+        dispatch('fetchQuestion', {
+          questionId
+        })
+        commit('SET_IS_QUESTION_VOTES_LOADING', false)
+      })
+      .catch(err => {
+        console.log(err)
+        commit('SET_IS_QUESTION_VOTES_LOADING', false)
       })
   },
 
@@ -324,6 +413,34 @@ const actions = {
       .then(res => {
         // TODO: success message
         commit('SET_IS_HIDDEN_ADD_UPDATE_ANSWER', true)
+        dispatch('fetchAnswers', {
+          questionId
+        })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  },
+
+  markAnswerAsCorrect ({ dispatch, rootState }, payload) {
+    const { answerId, questionId } = payload
+    let { url, method } = endpoints.markAnswerAsCorrect
+
+    url = url.replace(':answerId', answerId)
+
+    axiosAppInstance({
+      method,
+      url,
+      headers: {
+        Authorization: `Token ${rootState.AuthStore.authToken}`
+      }
+    })
+      .then(res => {
+        // TODO: success message
+        alert('done')
+        dispatch('fetchQuestion', {
+          questionId
+        })
         dispatch('fetchAnswers', {
           questionId
         })

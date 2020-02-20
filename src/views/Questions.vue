@@ -2,6 +2,11 @@
   <div>
     <div class="row">
       <div class="col-sm-12">
+        <AppHeader title="Questions" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
         <div>Questions <span v-if="!isQuestionsLoading">({{ questions.length }})</span> User: {{username}}</div>
         <div>
           <button @click="logout()">Logout</button>
@@ -31,25 +36,25 @@
 
 <script> 
 import Vuex from 'vuex'
-import AppQuestionItem from '../components/QuestionItem'
+import AppQuestionItem from '@/components/HomeQuestionItem'
+import AppHeader from '@/components/Header'
 
 export default {
   components: {
-    AppQuestionItem
+    AppQuestionItem,
+    AppHeader
   },
   created () {
     this.fetchQuestions()
   },
   computed: {
-    username () {
-      return this.$store.getters['AuthStore/getUser']
-    },
-    questions () {
-      return this.$store.getters['QnaStore/getQuestions']
-    },
-    isQuestionsLoading () {
-      return this.$store.getters['QnaStore/getQuestionsIsLoading']
-    }
+    ...Vuex.mapGetters('AuthStore', {
+      username: 'getUser'
+    }),
+    ...Vuex.mapGetters('QnaStore', {
+      questions: 'getQuestions',
+      isQuestionsLoading: 'getQuestionsIsLoading'
+    })
   },
   methods: {
     ...Vuex.mapActions('AuthStore', [
