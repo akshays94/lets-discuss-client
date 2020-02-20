@@ -44,7 +44,6 @@
                       id="pwd"
                       placeholder="Password">
                 </div>
-                <br/>
                 <div class="align-center">
                     <button
                       @click="register()"
@@ -53,7 +52,7 @@
                     &nbsp;
                     <button
                       @click="navigateToLoginPage()"
-                      class="btn btn-danger"
+                      class="btn btn-outline-danger"
                     >Cancel</button>
                 </div>
             </div>

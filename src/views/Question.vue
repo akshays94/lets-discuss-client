@@ -23,9 +23,6 @@
               :answer="answer"
               :question="question" />
           </div>
-          <div v-else>
-            No answers
-          </div>
         </div>
       </div>
     </div>

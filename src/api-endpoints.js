@@ -46,6 +46,18 @@ const endpoints = {
   markAnswerAsCorrect: {
     method: 'post',
     url: '/api/v1/answers/:answerId/mark-as-correct/'
+  },
+  upvoteAnswer: {
+    method: 'post',
+    url: '/api/v1/answers/:answerId/upvote/'
+  },
+  downvoteAnswer: {
+    method: 'post',
+    url: '/api/v1/answers/:answerId/downvote/'
+  },
+  revokeVoteAnswer: {
+    method: 'post',
+    url: '/api/v1/answers/:answerId/revoke-vote/'
   }
 }
 

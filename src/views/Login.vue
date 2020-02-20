@@ -20,15 +20,14 @@
                       id="pwd"
                       placeholder="Password">
                 </div>
-                <br/>
                 <div class="align-center">
                     <button
                       @click="login()"
-                      class="btn btn-success"
+                      class="btn btn-primary"
                       id="login">Login</button>
                     &nbsp;
                     <button
-                        class="btn btn-primary"
+                        class="btn btn-outline-success"
                         @click="navigateToRegistrationPage()"
                     >Register</button>
                 </div>

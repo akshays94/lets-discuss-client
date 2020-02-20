@@ -4,6 +4,7 @@
       <!-- upvote -->
       <div 
         class="q-box--actions--btn"
+        :title="!question.is_upvoted ? 'Click to upvote': 'Click to revoke upvote'"
         @click="!question.is_upvoted ? pageUpvoteQuestion({ questionId: question.id }) : pageRevokeVoteQuestion({ questionId: question.id })"
         :class="{ upvoted: question.is_upvoted }">
         <font-awesome-icon 
@@ -28,6 +29,7 @@
       <!-- downvote -->
       <div 
         class="q-box--actions--btn"
+        :title="!question.is_downvoted ? 'Click to downvote': 'Click to revoke downvote'"
         @click="!question.is_downvoted ? pageDownvoteQuestion({ questionId: question.id }) : pageRevokeVoteQuestion({ questionId: question.id })"
         :class="{ downvoted: question.is_downvoted }">
         <font-awesome-icon 
@@ -128,6 +130,7 @@ export default {
 .q-box--title {
   font-size: 1.25em;
   font-weight: bold;
+  margin-bottom: 12px;
 }
 
 .q-box--content {

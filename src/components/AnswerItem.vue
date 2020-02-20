@@ -1,20 +1,37 @@
 <template>
   <div class="a-box">
     <div class="a-box--actions">
+      <!-- upvote -->
       <div 
-        class="a-box--actions--btn">
+        class="a-box--actions--btn"
+        :class="{ upvoted: answer.is_upvoted }"
+        @click="!answer.is_upvoted ? upvoteAnswer({ answerId: answer.id, questionId: question.id }) : revokeVoteAnswer({ answerId: answer.id, questionId: question.id })">
         <font-awesome-icon 
           :icon="['fas', 'caret-up']" 
           size="lg" />
       </div>
 
+      <!-- votes -->
       <div 
         class="a-box--actions--votes">
-        {{ answer.votes }}
+        <span 
+          v-if="!answer.is_votes_loading"
+          class="a-box--actions--votes--txt"
+          :class="{ upvoted: answer.is_upvoted, downvoted: answer.is_downvoted }">
+          {{ answer.votes }}
+        </span>
+        <font-awesome-icon
+          v-if="answer.is_votes_loading"
+          :icon="['fas', 'spinner']" 
+          color="grey"
+          spin />
       </div>
       
+      <!-- downvote -->
       <div 
-        class="a-box--actions--btn">
+        class="a-box--actions--btn"
+        :class="{ downvoted: answer.is_downvoted }"
+        @click="!answer.is_downvoted ? downvoteAnswer({ answerId: answer.id, questionId: question.id }) : revokeVoteAnswer({ answerId: answer.id, questionId: question.id })">
         <font-awesome-icon 
           :icon="['fas', 'caret-down']" 
           size="lg" />
@@ -39,6 +56,7 @@
       <div class="a-box--content">
         {{ answer.content }}
       </div>
+
       <div v-if="isShowMarkAsCorrectButton">
         <br>
         <button 
@@ -66,7 +84,10 @@ export default {
   },
   methods: {
     ...Vuex.mapActions('QnaStore', [
-      'markAnswerAsCorrect'
+      'markAnswerAsCorrect',
+      'upvoteAnswer',
+      'downvoteAnswer',
+      'revokeVoteAnswer'
     ])
   }
 }
@@ -75,7 +96,7 @@ export default {
 <style scoped>
 .a-box {
   border: 1px solid lightgray;
-  padding: 12px 12px 12px 0;
+  padding: 12px 12px 32px 0;
   margin-bottom: 24px;
   display: flex;
 }
@@ -96,6 +117,14 @@ export default {
   cursor: pointer;
 }
 
+.a-box--actions--btn.upvoted {
+  color: green;
+}
+
+.a-box--actions--btn.downvoted {
+  color: orangered;
+}
+
 .a-box--actions--btn:hover {
   background: #efefef;
 }
@@ -104,7 +133,16 @@ export default {
   text-align: center;
   /* border: 1px solid; */
   /* padding: 0 12px; */
+}
 
+.a-box--actions--votes--txt.upvoted {
+  font-weight: bold;
+  color: green;
+}
+
+.a-box--actions--votes--txt.downvoted {
+  font-weight: bold;
+  color: orangered;
 }
 
 .a-box--actions--iscorrect {

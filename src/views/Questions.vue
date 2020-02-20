@@ -2,15 +2,16 @@
   <div>
     <div class="row">
       <div class="col-sm-12">
-        <AppHeader title="Questions" />
+        <AppHeader :title="`Questions (${questions.length})`" />
       </div>
     </div>
     <div class="row">
       <div class="col-sm-12">
-        <div>Questions <span v-if="!isQuestionsLoading">({{ questions.length }})</span> User: {{username}}</div>
         <div>
-          <button @click="logout()">Logout</button>
-          <button @click="addQuestion()">Add Question</button>
+          <button
+            @click="addQuestion()"
+            class="btn btn-primary btn-sm"
+          >Ask Question</button>
         </div>
       </div>
     </div>
@@ -48,24 +49,15 @@ export default {
     this.fetchQuestions()
   },
   computed: {
-    ...Vuex.mapGetters('AuthStore', {
-      username: 'getUser'
-    }),
     ...Vuex.mapGetters('QnaStore', {
       questions: 'getQuestions',
       isQuestionsLoading: 'getQuestionsIsLoading'
     })
   },
   methods: {
-    ...Vuex.mapActions('AuthStore', [
-      'logoutUser'
-    ]),
     ...Vuex.mapActions('QnaStore', [
       'fetchQuestions'
     ]),
-    logout () {
-      this.logoutUser()
-    },
     addQuestion () {
       this.$router.push('add-question')
     }

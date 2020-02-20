@@ -6,27 +6,35 @@
           <h3 class="text-center">Add Question</h3>
           <br/>
           <div class="form-group">
+            <label for="">Title</label>
+            <input v-model="title" type="email" class="form-control" placeholder="Enter title">
+          </div>
+          <div class="form-group">
+            <label for="">Content</label>
+            <textarea placeholder="Enter content" class="form-control" style="min-width: 100%" v-model="content"></textarea>
+          </div>
+          <!-- <div class="form-group">
               <input 
                 v-model="title"
                 type="text" 
                 class="form-control" 
                 id="title" 
                 placeholder="Title">
-          </div>
-          <div class="form-group">
+          </div> -->
+          <!-- <div class="form-group">
               <label for="content">Content:</label>
               <textarea v-model="content" name="" id="" cols="30" rows=""></textarea>
-          </div>
-          <br/>
+          </div> -->
           <div class="align-center">
               <button
                 @click="saveQuestion()"
-                class="btn btn-success"
-              >Save</button>
+                class="btn btn-primary btn-sm"
+                :disabled="content.trim().length == 0 || title.trim().length == 0"
+              >Post Question</button>
               &nbsp;
               <button
                 @click="navigateToQuestionsPage()"
-                class="btn btn-danger"
+                class="btn btn-danger btn-sm"
               >Cancel</button>
           </div>
       </div>
@@ -63,35 +71,7 @@ export default {
 </script>
 
 <style scoped>
-.q-box {
+div {
   text-align: left;
-  margin-bottom: 24px;
-  display: flex;
-  border: 1px solid lightgray;
-  box-shadow: 0 2px 3px 0 lightgray;
-}
-
-.q-box--vote-action {
-  border: 1px solid purple;
-}
-
-.q-box--details {
-  /* border: 1px solid blue; */
-  padding: 12px;
-}
-
-.q-box--details--title {
-  margin-bottom: 8px;
-  font-weight: bold;
-  font-size: 1.15em;
-}
-
-.q-box--details--content {
-  margin-bottom: 8px;
-}
-
-.q-box--details--askedby {
-  font-size: 0.8em;
-  margin-bottom: 8px;
 }
 </style>

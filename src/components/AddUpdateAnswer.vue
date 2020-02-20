@@ -5,14 +5,20 @@
     </div>
     <div class="answer-box">
       <div>
-        <textarea class="form-control" style="min-width: 100%" v-model="content"></textarea>
+        <textarea placeholder="Your answer" class="form-control" style="min-width: 100%" v-model="content"></textarea>
       </div>
       <button 
         type="button" 
         :disabled="content.trim().length == 0"
         class="btn btn-primary btn-sm"
         @click="postAnswer()">
-        Post Answer
+        <span v-if="!isPostingAnswer">Post Answer</span>
+        <span v-else>
+          <font-awesome-icon
+          :icon="['fas', 'spinner']" 
+          color="white"
+          spin /> Posting ...
+        </span>
       </button>
     </div>
   </div>
@@ -31,9 +37,12 @@ export default {
     }
   },
   computed: {
-    username () {
-      return this.$store.getters['AuthStore/getUser']
-    }
+    ...Vuex.mapGetters('AuthStore', {
+      username: 'getUser'
+    }),
+    ...Vuex.mapGetters('QnaStore', {
+      isPostingAnswer: 'getIsPostingAnswer'
+    })
   },
   methods: {
     ...Vuex.mapActions('QnaStore', [

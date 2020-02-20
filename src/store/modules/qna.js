@@ -14,7 +14,8 @@ const getDefaultState = () => {
       questionItem: {},
       is_question_votes_loading: false,
       answers: [],
-      is_hidden_add_update_answer: true
+      is_hidden_add_update_answer: true,
+      is_posting_answer: false
     }
   }
 }
@@ -27,7 +28,8 @@ const getters = {
   getQuestion: (state) => state.question.questionItem,
   getAnswers: (state) => state.question.answers,
   getIsHiddenAddUpdateAnswer: (state) => state.question.is_hidden_add_update_answer,
-  getIsQuestionVotesLoading: (state) => state.question.is_question_votes_loading
+  getIsQuestionVotesLoading: (state) => state.question.is_question_votes_loading,
+  getIsPostingAnswer: (state) => state.question.is_posting_answer
 }
 
 const mutations = {
@@ -48,6 +50,15 @@ const mutations = {
   },
   SET_IS_QUESTION_VOTES_LOADING (state, payload) {
     state.question.is_question_votes_loading = payload
+  },
+  SET_IS_VOTES_LOADING_IN_ANSWERS (state) {
+    for (let index = 0; index < state.question.answers.length; index++) {
+      const answerItem = state.question.answers[index]
+      answerItem.is_votes_loading = false
+    }
+  },
+  SET_IS_POSTING_ANSWER (state, payload) {
+    state.question.is_posting_answer = payload
   }
 }
 
@@ -135,6 +146,7 @@ const actions = {
       .then(res => {
         // TODO: success message
         commit('SET_ANSWERS', res.data)
+        commit('SET_IS_VOTES_LOADING_IN_ANSWERS')
       })
       .catch(err => console.log(err))
   },
@@ -400,26 +412,34 @@ const actions = {
     url = url.replace(':questionId', questionId)
     // console.log('url', url)
 
-    axiosAppInstance({
-      method,
-      url,
-      data: {
-        content: content
-      },
-      headers: {
-        Authorization: `Token ${rootState.AuthStore.authToken}`
-      }
-    })
-      .then(res => {
-        // TODO: success message
-        commit('SET_IS_HIDDEN_ADD_UPDATE_ANSWER', true)
-        dispatch('fetchAnswers', {
-          questionId
+    commit('SET_IS_POSTING_ANSWER', true)
+
+    const WAIT_FOR_SECS = 2000
+
+    setTimeout(() => {
+      axiosAppInstance({
+        method,
+        url,
+        data: {
+          content: content
+        },
+        headers: {
+          Authorization: `Token ${rootState.AuthStore.authToken}`
+        }
+      })
+        .then(res => {
+          // TODO: success message
+          commit('SET_IS_HIDDEN_ADD_UPDATE_ANSWER', true)
+          dispatch('fetchAnswers', {
+            questionId
+          })
+          commit('SET_IS_POSTING_ANSWER', false)
         })
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .catch(err => {
+          console.log(err)
+          commit('SET_IS_POSTING_ANSWER', false)
+        })
+    }, WAIT_FOR_SECS)
   },
 
   markAnswerAsCorrect ({ dispatch, rootState }, payload) {
@@ -447,6 +467,146 @@ const actions = {
       })
       .catch(err => {
         console.log(err)
+      })
+  },
+
+  upvoteAnswer ({ getters, dispatch, rootState }, payload) {
+    const { answerId, questionId } = payload
+    let { url, method } = endpoints.upvoteAnswer
+
+    url = url.replace(':answerId', answerId)
+    // console.log('url', url)
+
+    let elementBackup = {}
+
+    for (let index = 0; index < getters.getAnswers.length; index++) {
+      const element = getters.getAnswers[index]
+      if (element.id === answerId) {
+        elementBackup = Object.assign({}, element)
+        element.is_upvoted = true
+        element.is_votes_loading = true
+        if (elementBackup.is_downvoted) {
+          element.is_downvoted = false
+        }
+        break
+      }
+    }
+
+    axiosAppInstance({
+      method,
+      url,
+      headers: {
+        Authorization: `Token ${rootState.AuthStore.authToken}`
+      }
+    })
+      .then(res => {
+        // TODO: success message
+        dispatch('fetchAnswers', {
+          questionId
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        for (let index = 0; index < getters.getAnswers.length; index++) {
+          const element = getters.getAnswers[index]
+          if (element.id === answerId) {
+            element.is_votes_loading = false
+            element.is_voted = elementBackup.is_voted
+            element.is_upvoted = elementBackup.is_upvoted
+            element.is_downvoted = elementBackup.is_downvoted
+            break
+          }
+        }
+      })
+  },
+
+  downvoteAnswer ({ getters, dispatch, rootState }, payload) {
+    const { answerId, questionId } = payload
+    let { url, method } = endpoints.downvoteAnswer
+
+    url = url.replace(':answerId', answerId)
+    // console.log('url', url)
+    
+    let elementBackup = {}
+
+    for (let index = 0; index < getters.getAnswers.length; index++) {
+      const element = getters.getAnswers[index]
+      if (element.id === answerId) {
+        elementBackup = Object.assign({}, element)
+        element.is_downvoted = true
+        element.is_votes_loading = true
+        if (elementBackup.is_upvoted) {
+          element.is_upvoted = false
+        }
+        break
+      }
+    }
+
+    axiosAppInstance({
+      method,
+      url,
+      headers: {
+        Authorization: `Token ${rootState.AuthStore.authToken}`
+      }
+    })
+      .then(res => {
+        // TODO: success message
+        dispatch('fetchAnswers', {
+          questionId
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        for (let index = 0; index < getters.getAnswers.length; index++) {
+          const element = getters.getAnswers[index]
+          if (element.id === answerId) {
+            element.is_votes_loading = false
+            element.is_voted = elementBackup.is_voted
+            element.is_upvoted = elementBackup.is_upvoted
+            element.is_downvoted = elementBackup.is_downvoted
+            break
+          }
+        }
+      })
+  },
+
+  revokeVoteAnswer ({ getters, dispatch, rootState }, payload) {
+    const { answerId, questionId } = payload
+    let { url, method } = endpoints.revokeVoteAnswer
+
+    url = url.replace(':answerId', answerId)
+    // console.log('url', url)
+    
+    for (let index = 0; index < getters.getAnswers.length; index++) {
+      const element = getters.getAnswers[index]
+      if (element.id === answerId) {
+        element.is_votes_loading = true
+        break
+      }
+    }
+
+    axiosAppInstance({
+      method,
+      url,
+      headers: {
+        Authorization: `Token ${rootState.AuthStore.authToken}`
+      }
+    })
+      .then(res => {
+        // TODO: success message
+        dispatch('fetchAnswers', {
+          questionId
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        for (let index = 0; index < getters.getAnswers.length; index++) {
+          const element = getters.getAnswers[index]
+          if (element.id === answerId) {
+            element.is_votes_loading = false
+            break
+          }
+        }
       })
   }
 }

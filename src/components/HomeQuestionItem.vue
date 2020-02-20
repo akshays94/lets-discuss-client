@@ -32,7 +32,7 @@
     <div class="q-box--details">
       <div class="q-box--details--title">
         
-        #{{ question.id }} - <router-link
+        <span style="color:grey">#{{ question.id }}</span> - <router-link
           :to="{ name: 'question', params: { questionId: question.id } }">
           {{ question.title }}
         </router-link>
@@ -150,5 +150,6 @@ export default {
 
 .q-box--details--askedby {
   font-size: 0.8em;
+  color: grey;
 }
 </style>
