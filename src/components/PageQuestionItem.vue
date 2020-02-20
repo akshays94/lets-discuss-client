@@ -1,59 +1,60 @@
 <template>
-  <div class="q-box">
+  <div>
     <div v-if="Object.keys(question).length > 0">
-      <div class="q-box--actions">
-        <!-- upvote -->
-        <div 
-          class="q-box--actions--btn"
-          :title="!question.is_upvoted ? 'Click to upvote': 'Click to revoke upvote'"
-          @click="!question.is_upvoted ? pageUpvoteQuestion({ questionId: question.id }) : pageRevokeVoteQuestion({ questionId: question.id })"
-          :class="{ upvoted: question.is_upvoted }">
-          <font-awesome-icon 
-            :icon="['fas', 'caret-up']" 
-            size="2x" />
-        </div>
+      <div class="q-box">
+        <div class="q-box--actions">
+          <!-- upvote -->
+          <div 
+            class="q-box--actions--btn"
+            :title="!question.is_upvoted ? 'Click to upvote': 'Click to revoke upvote'"
+            @click="!question.is_upvoted ? pageUpvoteQuestion({ questionId: question.id }) : pageRevokeVoteQuestion({ questionId: question.id })"
+            :class="{ upvoted: question.is_upvoted }">
+            <font-awesome-icon 
+              :icon="['fas', 'caret-up']" 
+              size="2x" />
+          </div>
 
-        <!-- votes -->
-        <div 
-          class="q-box--actions--votes"
-          :class="{ upvoted: question.is_upvoted, downvoted: question.is_downvoted }">
-          <span v-if="!isQuestionVotesLoading">
-            {{ question.votes }}
-          </span>
-          <font-awesome-icon 
-            v-if="isQuestionVotesLoading"
-            :icon="['fas', 'spinner']" 
-            color="grey"
-            spin />
+          <!-- votes -->
+          <div 
+            class="q-box--actions--votes"
+            :class="{ upvoted: question.is_upvoted, downvoted: question.is_downvoted }">
+            <span v-if="!isQuestionVotesLoading">
+              {{ question.votes }}
+            </span>
+            <font-awesome-icon 
+              v-if="isQuestionVotesLoading"
+              :icon="['fas', 'spinner']" 
+              color="grey"
+              spin />
+          </div>
+          
+          <!-- downvote -->
+          <div 
+            class="q-box--actions--btn"
+            :title="!question.is_downvoted ? 'Click to downvote': 'Click to revoke downvote'"
+            @click="!question.is_downvoted ? pageDownvoteQuestion({ questionId: question.id }) : pageRevokeVoteQuestion({ questionId: question.id })"
+            :class="{ downvoted: question.is_downvoted }">
+            <font-awesome-icon 
+              :icon="['fas', 'caret-down']" 
+              size="2x" />
+          </div>
         </div>
-        
-        <!-- downvote -->
-        <div 
-          class="q-box--actions--btn"
-          :title="!question.is_downvoted ? 'Click to downvote': 'Click to revoke downvote'"
-          @click="!question.is_downvoted ? pageDownvoteQuestion({ questionId: question.id }) : pageRevokeVoteQuestion({ questionId: question.id })"
-          :class="{ downvoted: question.is_downvoted }">
-          <font-awesome-icon 
-            :icon="['fas', 'caret-down']" 
-            size="2x" />
-        </div>
-      </div>
-      <div class="q-box--details">
-        <div class="q-box--details--askedby">
-          Asked by <a href="">
-            {{ questionAuthorName }}
-          </a>
-            | X mins ago {{ question.created_on }}
-        </div>
-        <div class="q-box--title">
-          <span class="questionid">#{{ question.id }}</span> - {{ question.title }}
-        </div>
-        <div class="q-box--content">
-          {{ question.content }}
+        <div class="q-box--details">
+          <div class="q-box--details--askedby">
+            Asked by <a href="">
+              {{ questionAuthorName }}
+            </a>
+              | X mins ago {{ question.created_on }}
+          </div>
+          <div class="q-box--title">
+            <span class="questionid">#{{ question.id }}</span> - {{ question.title }}
+          </div>
+          <div class="q-box--content">
+            {{ question.content }}
+          </div>
         </div>
       </div>
     </div>
-
     <div v-else>
       <p>Loading question ...</p>
     </div>
