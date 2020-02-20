@@ -48,7 +48,7 @@
 
 <script> 
 import Vuex from 'vuex'
-import AppHeader from '@/components/Header'
+import AppHeader from '@/components/layout/Header'
 
 export default {
   components: {

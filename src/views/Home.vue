@@ -11,19 +11,18 @@
     </div>
 
     <!-- Footer -->
-    <!-- <footer class="page-footer font-small blue pt-4">
-      <div class="footer-copyright text-center py-3">© 2020:
+    <footer class="page-footer font-small blue pt-4">
+      <div class="footer-copyright text-center py-3">© {{ new Date().getFullYear() }}:
         Made by Akshay
       </div>
-    </footer> -->
-
+    </footer>
 
   </div>
 </template>
 
 <script>
 import Vuex from 'vuex'
-import AppNavBar from '@/components/NavBar'
+import AppNavBar from '@/components/layout/NavBar'
 export default {
   components: {
     AppNavBar

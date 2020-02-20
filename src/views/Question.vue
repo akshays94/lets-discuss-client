@@ -31,9 +31,9 @@
 
 <script>
 import Vuex from 'vuex'
-import AppAddUpdateAnswer from '../components/AddUpdateAnswer'
-import AppAnswerItem from '@/components/AnswerItem'
-import AppQuestionItem from '@/components/PageQuestionItem'
+import AppAddUpdateAnswer from '../components/answer/AddUpdateAnswer'
+import AppAnswerItem from '@/components/answer/AnswerItem'
+import AppQuestionItem from '@/components/question/PageQuestionItem'
 
 export default {
   components: {

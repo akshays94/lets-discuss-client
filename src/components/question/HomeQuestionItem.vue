@@ -42,7 +42,10 @@
         Posted by <a href="">
           {{ question.created_by.first_name }} {{ question.created_by.last_name }}
         </a>
-        | X mins ago
+        | 
+        <span :title="question.created_on_date">
+          {{ question.created_on_humanized }} <span v-if="question.created_on_humanized !== 'now'">ago</span>
+        </span>
       </div>
       <div class="q-box--details--title">
         <span style="color:grey">#{{ question.id }}</span> - <router-link

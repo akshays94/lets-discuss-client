@@ -51,7 +51,10 @@
         Posted by <a href="">
           {{ answer.created_by.first_name }} {{ answer.created_by.last_name }}
         </a>
-        | X mins ago {{ answer.created_on }}
+        |
+        <span :title="answer.created_on_date">
+          {{ answer.created_on_humanized }} <span v-if="answer.created_on_humanized !== 'now'">ago</span>
+        </span>
       </div>
       <div class="a-box--content">
         {{ answer.content }}

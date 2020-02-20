@@ -38,8 +38,8 @@
 
 <script> 
 import Vuex from 'vuex'
-import AppQuestionItem from '@/components/HomeQuestionItem'
-import AppHeader from '@/components/Header'
+import AppQuestionItem from '@/components/question/HomeQuestionItem'
+import AppHeader from '@/components/layout/Header'
 
 export default {
   components: {

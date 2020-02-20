@@ -44,7 +44,10 @@
             Asked by <a href="">
               {{ questionAuthorName }}
             </a>
-              | X mins ago {{ question.created_on }}
+            | 
+            <span :title="question.created_on_date">
+              {{ question.created_on_humanized }} <span v-if="question.created_on_humanized !== 'now'">ago</span>
+            </span>
           </div>
           <div class="q-box--title">
             <span class="questionid">#{{ question.id }}</span> - {{ question.title }}
