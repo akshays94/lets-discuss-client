@@ -59,6 +59,12 @@ const mutations = {
   },
   SET_IS_POSTING_ANSWER (state, payload) {
     state.question.is_posting_answer = payload
+  },
+  SET_IS_VOTES_LOADING_IN_QUESTIONS (state) {
+    for (let index = 0; index < state.questions.data.length; index++) {
+      const questionItem = state.questions.data[index]
+      questionItem.is_votes_loading = false
+    }
   }
 }
 
@@ -78,6 +84,7 @@ const actions = {
         .then(res => {
           commit('SET_IS_LOADING_QUESTIONS', false)
           commit('SET_QUESTIONS', res.data)
+          commit('SET_IS_VOTES_LOADING_IN_QUESTIONS')
         })
         .catch(err => {
           commit('SET_IS_LOADING_QUESTIONS', false)
@@ -165,6 +172,7 @@ const actions = {
       if (element.id === questionId) {
         elementBackup = Object.assign({}, element)
         element.is_upvoted = true
+        // element.is_votes_loading = true
         if (elementBackup.is_downvoted) {
           element.is_downvoted = false
         }
@@ -190,6 +198,7 @@ const actions = {
         for (let index = 0; index < getters.getQuestions.length; index++) {
           const element = getters.getQuestions[index]
           if (element.id === questionId) {
+            // element.is_votes_loading = false
             element.is_voted = elementBackup.is_voted
             element.is_upvoted = elementBackup.is_upvoted
             element.is_downvoted = elementBackup.is_downvoted
@@ -392,10 +401,12 @@ const actions = {
       }
     })
       .then(res => {
+        console.log('refresh')
         for (let index = 0; index < getters.getQuestions.length; index++) {
           const element = getters.getQuestions[index]
           if (element.id === questionId) {
             element.votes = res.data.votes
+            // element.is_votes_loading = false
             break
           }
         }

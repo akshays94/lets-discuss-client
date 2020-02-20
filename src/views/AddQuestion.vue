@@ -2,16 +2,19 @@
   <div>
     <div class="row">
       <div class="col-sm-12">
+        <AppHeader :title="`Create Question`" />
+      </div>
+    </div>  
+    <div class="row">
+      <div class="col-sm-12">
         <div class="form-box">
-          <h3 class="text-center">Add Question</h3>
-          <br/>
           <div class="form-group">
             <label for="">Title</label>
             <input v-model="title" type="email" class="form-control" placeholder="Enter title">
           </div>
           <div class="form-group">
             <label for="">Content</label>
-            <textarea placeholder="Enter content" class="form-control" style="min-width: 100%" v-model="content"></textarea>
+            <textarea rows="10" placeholder="Enter content" class="form-control" style="min-width: 100%" v-model="content"></textarea>
           </div>
           <!-- <div class="form-group">
               <input 
@@ -45,8 +48,12 @@
 
 <script> 
 import Vuex from 'vuex'
+import AppHeader from '@/components/Header'
 
 export default {
+  components: {
+    AppHeader
+  },
   data () {
     return {
       title: '',

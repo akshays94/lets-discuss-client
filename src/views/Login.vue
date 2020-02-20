@@ -27,9 +27,19 @@
                       id="login">Login</button>
                     &nbsp;
                     <button
+                      @click="loginAsGuest()"
+                      class="btn btn-info"
+                      id="login">Login As Guest</button>
+                    &nbsp;
+                    <button
                         class="btn btn-outline-success"
                         @click="navigateToRegistrationPage()"
                     >Register</button>
+                    <!-- <div class="alert alert-secondary" role="alert" style="margin-top: 24px; text-align: left">
+                      <u>Guest Login:</u> <br>
+                      <b>Username:</b> james.west <br>
+                      <b>Password:</b> west
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -58,6 +68,14 @@ export default {
       const formData = {
         username: this.username,
         password: this.password
+      }
+      this.resetFields()
+      this.loginUser(formData)
+    },
+    loginAsGuest () {
+      const formData = {
+        username: 'james.west',
+        password: 'west'
       }
       this.resetFields()
       this.loginUser(formData)

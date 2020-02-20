@@ -7,12 +7,13 @@
     </div>
     <div class="row">
       <div class="col-sm-12">
-        <div>
+        <div style="text-align: right">
           <button
             @click="addQuestion()"
             class="btn btn-primary btn-sm"
           >Ask Question</button>
         </div>
+        <br>
       </div>
     </div>
     <div class="row">

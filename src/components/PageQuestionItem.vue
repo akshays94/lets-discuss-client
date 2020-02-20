@@ -95,11 +95,11 @@ export default {
 }
 
 .upvoted {
-  color: green;
+  color: #28a745;
 }
 
 .downvoted {
-  color: orangered;
+  color: #dc3545;
 }
 
 .q-box {
@@ -126,12 +126,12 @@ export default {
 
 .q-box--actions--votes.upvoted {
   font-weight: bold;
-  color: green;
+  color: #28a745;
 }
 
 .q-box--actions--votes.downvoted {
   font-weight: bold;
-  color: orangered;
+  color: #dc3545;
 }
 
 .q-box--title {

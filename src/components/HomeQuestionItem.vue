@@ -15,7 +15,15 @@
       <div 
         class="q-box--actions--1--votes"
         :class="{ upvoted: question.is_upvoted, downvoted: question.is_downvoted }">
-        {{ question.votes }}
+        <span
+          v-if="!question.is_votes_loading">
+          {{ question.votes }}
+        </span>
+        <font-awesome-icon 
+          v-else
+          :icon="['fas', 'spinner']" 
+          color="grey"
+          spin />
       </div>
       
       <div 
@@ -30,8 +38,13 @@
     </div>
 
     <div class="q-box--details">
+      <div class="q-box--details--askedby">
+        Posted by <a href="">
+          {{ question.created_by.first_name }} {{ question.created_by.last_name }}
+        </a>
+        | X mins ago
+      </div>
       <div class="q-box--details--title">
-        
         <span style="color:grey">#{{ question.id }}</span> - <router-link
           :to="{ name: 'question', params: { questionId: question.id } }">
           {{ question.title }}
@@ -39,12 +52,6 @@
       </div>    
       <div class="q-box--details--content">
         {{ modifiedQuestionContent }}
-      </div>
-      <div class="q-box--details--askedby">
-        Posted by <a href="">
-          {{ question.created_by.first_name }} {{ question.created_by.last_name }}
-        </a>
-        | X mins ago
       </div>
     </div>
   </div>
@@ -79,7 +86,7 @@ export default {
 
 <style scoped>
 .voted {
-  color: green;
+  color: #28a745;
   font-weight: bold;
 }
 
@@ -92,7 +99,7 @@ export default {
 }
 
 .q-box--actions--1 {
-  /* border: 1px solid red; */
+  /* border: 1px solid #dc3545; */
   padding-top: 12px;
   padding-left: 12px;
   display: flex;
@@ -105,12 +112,12 @@ export default {
 }
 
 .q-box--actions--1--votes.upvoted {
-  color: green;
+  color: #28a745;
   font-weight: bold;
 }
 
 .q-box--actions--1--votes.downvoted {
-  color: red;
+  color: #dc3545;
   font-weight: bold;
 }
 
@@ -121,11 +128,11 @@ export default {
 }
 
 .q-box--actions--1--btn.upvoted {
-  color: green;
+  color: #28a745;
 }
 
 .q-box--actions--1--btn.downvoted {
-  color: red;
+  color: #dc3545;
 }
 
 .q-box--actions--1--btn:hover {

@@ -43,7 +43,7 @@
         <font-awesome-icon 
           :icon="['fas', 'check']" 
           size="lg"
-          color="green" />
+          color="#28a745" />
       </div>
     </div>
     <div class="a-box--details">
@@ -118,11 +118,11 @@ export default {
 }
 
 .a-box--actions--btn.upvoted {
-  color: green;
+  color: #28a745;
 }
 
 .a-box--actions--btn.downvoted {
-  color: orangered;
+  color: #dc3545;
 }
 
 .a-box--actions--btn:hover {
@@ -137,12 +137,12 @@ export default {
 
 .a-box--actions--votes--txt.upvoted {
   font-weight: bold;
-  color: green;
+  color: #28a745;
 }
 
 .a-box--actions--votes--txt.downvoted {
   font-weight: bold;
-  color: orangered;
+  color: #dc3545;
 }
 
 .a-box--actions--iscorrect {

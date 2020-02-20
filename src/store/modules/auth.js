@@ -104,7 +104,7 @@ const actions = {
     commit('CLEAR_AUTHENTICATION')
     localStorage.removeItem('token')
     localStorage.removeItem('user')
-    router.replace('login')
+    router.replace({ name: 'login' })
   }
 }
 
