@@ -67,13 +67,6 @@ const mutations = {
     }
   },
   RESET_QUESTION (state) {
-    // question: {
-    //   questionItem: {},
-    //   is_question_votes_loading: false,
-    //   answers: [],
-    //   is_hidden_add_update_answer: true,
-    //   is_posting_answer: false
-    // }
     state.question.questionItem = {}
     state.question.answers = []
   }
@@ -628,6 +621,58 @@ const actions = {
             break
           }
         }
+      })
+  },
+
+  markStarQuestion ({ getters, rootState, dispatch }, payload) {
+    const { questionId, isPageQuestion } = payload
+    let { url, method } = endpoints.markStarQuestion
+
+    url = url.replace(':questionId', questionId)
+    // console.log('url', url)
+   
+    axiosAppInstance({
+      method,
+      url,
+      headers: {
+        Authorization: `Token ${rootState.AuthStore.authToken}`
+      }
+    })
+      .then(res => {
+        if (isPageQuestion) {
+          dispatch('fetchQuestion', {
+            questionId
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  },
+
+  unmarkStarQuestion ({ getters, rootState, dispatch }, payload) {
+    const { questionId, isPageQuestion } = payload
+    let { url, method } = endpoints.unmarkStarQuestion
+
+    url = url.replace(':questionId', questionId)
+    // console.log('url', url)
+   
+    axiosAppInstance({
+      method,
+      url,
+      headers: {
+        Authorization: `Token ${rootState.AuthStore.authToken}`
+      }
+    })
+      .then(res => {
+        if (isPageQuestion) {
+          dispatch('fetchQuestion', {
+            questionId
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err)
       })
   }
 }

@@ -1,40 +1,51 @@
 <template>
   <div
     class="q-box">
-    
-    <div class="q-box--actions--1">      
-      <div 
-        class="q-box--actions--1--btn"
-        :class="{ upvoted: question.is_upvoted }"
-        @click="!question.is_upvoted ? upvoteQuestion({ questionId: question.id }) : revokeVoteQuestion({ questionId: question.id })">
-        <font-awesome-icon 
-          :icon="['fas', 'caret-up']" 
-          size="lg" />
-      </div>
+    <div>
+      <div class="q-box--actions--1">      
+        <div 
+          class="q-box--actions--1--btn"
+          :class="{ upvoted: question.is_upvoted }"
+          @click="!question.is_upvoted ? upvoteQuestion({ questionId: question.id }) : revokeVoteQuestion({ questionId: question.id })">
+          <font-awesome-icon 
+            :icon="['fas', 'caret-up']" 
+            size="lg" />
+        </div>
 
-      <div 
-        class="q-box--actions--1--votes"
-        :class="{ upvoted: question.is_upvoted, downvoted: question.is_downvoted }">
-        <span
-          v-if="!question.is_votes_loading">
-          {{ question.votes }}
-        </span>
-        <font-awesome-icon 
-          v-else
-          :icon="['fas', 'spinner']" 
-          color="grey"
-          spin />
-      </div>
+        <div 
+          class="q-box--actions--1--votes"
+          :class="{ upvoted: question.is_upvoted, downvoted: question.is_downvoted }">
+          <span
+            v-if="!question.is_votes_loading">
+            {{ question.votes }}
+          </span>
+          <font-awesome-icon 
+            v-else
+            :icon="['fas', 'spinner']" 
+            color="grey"
+            spin />
+        </div>
+        
+        <div 
+          class="q-box--actions--1--btn"
+          :class="{ downvoted: question.is_downvoted }"
+          @click="!question.is_downvoted ? downvoteQuestion({ questionId: question.id }) : revokeVoteQuestion({ questionId: question.id })">
+          <font-awesome-icon 
+            :icon="['fas', 'caret-down']" 
+            size="lg" />
+        </div>
       
-      <div 
-        class="q-box--actions--1--btn"
-        :class="{ downvoted: question.is_downvoted }"
-        @click="!question.is_downvoted ? downvoteQuestion({ questionId: question.id }) : revokeVoteQuestion({ questionId: question.id })">
-        <font-awesome-icon 
-          :icon="['fas', 'caret-down']" 
-          size="lg" />
       </div>
-    
+      <div class="q-box--actions--2">
+        <div 
+          class="q-box--actions--2--btn"
+          @click="is_starred ? unmarkStar() : markStar()">
+          <font-awesome-icon 
+            :icon="['fas', 'star']" 
+            size="sm" 
+            :color="is_starred ? '#FFDF00' : 'lightgray'" />
+        </div>  
+      </div>
     </div>
 
     <div class="q-box--details">
@@ -68,6 +79,14 @@ export default {
   props: [
     'question'
   ],
+  data () {
+    return {
+      is_starred: false
+    }
+  },
+  created () {
+    this.is_starred = this.question.is_starred
+  },
   computed: {
     modifiedQuestionContent () {
       let WANTED_LENGTH = 200
@@ -82,8 +101,22 @@ export default {
     ...Vuex.mapActions('QnaStore', [
       'upvoteQuestion',
       'downvoteQuestion',
-      'revokeVoteQuestion'
-    ])
+      'revokeVoteQuestion',
+      'markStarQuestion',
+      'unmarkStarQuestion'
+    ]),
+    markStar () {
+      this.is_starred = true
+      this.markStarQuestion({
+        questionId: this.question.id
+      })
+    },
+    unmarkStar () {
+      this.is_starred = false
+      this.unmarkStarQuestion({
+        questionId: this.question.id
+      })
+    }
   }
 }
 </script>
@@ -143,6 +176,12 @@ export default {
   background: #efefef;
   cursor: pointer;
 }
+
+.q-box--actions--2--btn {
+  text-align: center; 
+  padding-left: 12px; 
+  cursor: pointer;
+}  
 
 .q-box--details {
   /* border: 1px solid blue; */

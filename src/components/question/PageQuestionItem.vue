@@ -38,6 +38,16 @@
               :icon="['fas', 'caret-down']" 
               size="2x" />
           </div>
+
+          <div 
+            class="q-box--actions--btn"
+            @click="question.is_starred ? unmarkStar() : markStar()">
+            <font-awesome-icon 
+              :icon="['fas', 'star']" 
+              size="sm" 
+              :color="question.is_starred ? '#FFDF00' : 'lightgray'" /> 
+          </div>
+
         </div>
         <div class="q-box--details">
           <div class="q-box--details--askedby">
@@ -75,6 +85,14 @@ export default {
   props: [
     'question'
   ],
+  data () {
+    return {
+      is_starred: false
+    }
+  },
+  mounted () {
+    this.is_starred = this.question.is_starred
+  },
   computed: {
     ...Vuex.mapGetters('QnaStore', {
       isQuestionVotesLoading: 'getIsQuestionVotesLoading'
@@ -90,8 +108,24 @@ export default {
     ...Vuex.mapActions('QnaStore', [
       'pageUpvoteQuestion',
       'pageDownvoteQuestion',
-      'pageRevokeVoteQuestion'
-    ])
+      'pageRevokeVoteQuestion',
+      'markStarQuestion',
+      'unmarkStarQuestion'
+    ]),
+    markStar () {
+      this.is_starred = true
+      this.markStarQuestion({
+        questionId: this.question.id,
+        isPageQuestion: true
+      })
+    },
+    unmarkStar () {
+      this.is_starred = false
+      this.unmarkStarQuestion({
+        questionId: this.question.id,
+        isPageQuestion: true
+      })
+    }
   }
 }
 </script>

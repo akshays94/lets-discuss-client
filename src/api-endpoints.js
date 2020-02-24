@@ -70,6 +70,14 @@ const endpoints = {
   revokeVoteAnswer: {
     method: 'post',
     url: '/api/v1/answers/:answerId/revoke-vote/'
+  },
+  markStarQuestion: {
+    method: 'post',
+    url: '/api/v1/questions/:questionId/mark-star/'
+  },
+  unmarkStarQuestion: {
+    method: 'post',
+    url: '/api/v1/questions/:questionId/unmark-star/'
   }
 }
 
