@@ -7,7 +7,8 @@ const namespaced = true
 const getDefaultState = () => {
   return {
     authToken: null,
-    user: null
+    user: null,
+    is_trying_login: false
   }
 }
 
@@ -17,7 +18,8 @@ const getters = {
   getUser: (state) => state.user === null ? 'No user' : state.user.username,
   getAuthToken: (state) => state.authToken,
   getName: (state) => state.user === null ? 'No name' : `${state.user.firstname} ${state.user.lastname}`,
-  getUserId: (state) => state.user === null ? 'No user id' : state.user.id
+  getUserId: (state) => state.user === null ? 'No user id' : state.user.id,
+  getIsTryingLogin: (state) => state.is_trying_login
 }
 
 const mutations = {
@@ -25,14 +27,18 @@ const mutations = {
     state.authToken = payload.token
     state.user = payload.user
   },
-  CLEAR_AUTHENTICATION (state, payload) {
+  CLEAR_AUTHENTICATION (state) {
     state.authToken = null
     state.user = null
+  },
+  SET_IS_TRYING_LOGIN (state, payload) {
+    state.is_trying_login = payload
   }
 }
 
 const actions = {
   registerUser ({ commit }, authData) {
+    commit('SET_IS_TRYING_LOGIN', true)
     const { url, method } = endpoints.register      
     axiosAuthInstance({
       method,
@@ -40,6 +46,7 @@ const actions = {
       data: authData
     })
       .then(res => {
+        commit('SET_IS_TRYING_LOGIN', false)
         console.log(res)
         let userObject = {
           username: res.data.username,
@@ -56,12 +63,16 @@ const actions = {
         localStorage.setItem('token', res.data.auth_token)
         localStorage.setItem('user', JSON.stringify(userObject))
         // TODO: add success message
-        router.push({ name: 'questions' })
+        router.replace({ name: 'questions' })
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        commit('SET_IS_TRYING_LOGIN', false)
+      })
   },
 
   loginUser ({ commit }, authData) {
+    commit('SET_IS_TRYING_LOGIN', true)
     const { url, method } = endpoints.login      
     axiosAuthInstance({
       method,
@@ -69,7 +80,7 @@ const actions = {
       data: authData
     })
       .then(res => {
-        console.log(res)
+        commit('SET_IS_TRYING_LOGIN', false)
         let userObject = {
           username: res.data.username,
           firstname: res.data.first_name,
@@ -85,9 +96,12 @@ const actions = {
         localStorage.setItem('token', res.data.auth_token)
         localStorage.setItem('user', JSON.stringify(userObject))
         // TODO: add success message
-        router.push({ name: 'questions' })
+        router.replace({ name: 'questions' })
       })
-      .catch(err => console.log(err))
+      .catch(err => {
+        console.log(err)
+        commit('SET_IS_TRYING_LOGIN', false)
+      })
   },
 
   tryAutoLogin ({ commit }) {

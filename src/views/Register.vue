@@ -48,7 +48,17 @@
                     <button
                       @click="register()"
                       class="btn btn-success"
-                    >Register</button>
+                    >
+                      <span v-if="!isTryingLogin">
+                        Register
+                      </span>
+                      <span v-else>
+                        <font-awesome-icon
+                        :icon="['fas', 'spinner']" 
+                        color="white"
+                        spin /> Logging in ...
+                      </span>
+                    </button>
                     &nbsp;
                     <button
                       @click="navigateToLoginPage()"
@@ -72,6 +82,11 @@ export default {
       lastname: '',
       email: ''
     }
+  },
+  computed: {
+    ...Vuex.mapGetters('AuthStore', {
+      isTryingLogin: 'getIsTryingLogin'
+    })
   },
   methods: {
     ...Vuex.mapActions('AuthStore', [

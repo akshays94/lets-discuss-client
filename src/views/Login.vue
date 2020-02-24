@@ -24,7 +24,17 @@
                   <button
                     @click="login()"
                     class="btn btn-primary"
-                    id="login">Login</button>
+                    id="login">
+                    <span v-if="!isTryingLogin">
+                      Login
+                    </span>
+                    <span v-else>
+                      <font-awesome-icon
+                      :icon="['fas', 'spinner']" 
+                      color="white"
+                      spin /> Logging in ...
+                    </span>
+                    </button>
                   &nbsp;
                   
                   &nbsp;
@@ -40,7 +50,17 @@
                   <button
                     @click="loginAsGuest()"
                     class="btn btn-info form-control"
-                    id="login">Login As Guest</button>
+                    id="login">
+                      <span v-if="!isTryingLogin">
+                        Login As Guest
+                      </span>
+                      <span v-else>
+                        <font-awesome-icon
+                        :icon="['fas', 'spinner']" 
+                        color="white"
+                        spin /> Logging in ...
+                      </span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -56,6 +76,11 @@ export default {
       username: '',
       password: ''
     }
+  },
+  computed: {
+    ...Vuex.mapGetters('AuthStore', {
+      isTryingLogin: 'getIsTryingLogin'
+    })
   },
   methods: {
     ...Vuex.mapActions('AuthStore', [
