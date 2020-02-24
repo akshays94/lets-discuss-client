@@ -18,7 +18,10 @@
     </div>
     <div class="row">
       <div v-if="isQuestionsLoading" class="col-sm-12">
-        Fetching questions ...
+        <font-awesome-icon
+          :icon="['fas', 'spinner']" 
+          color="gray"
+          spin /> Fetching questions ...
       </div>  
       <div v-else class="col-sm-12">
         <div v-if="questions.length > 0">
@@ -48,6 +51,7 @@ export default {
   },
   created () {
     this.fetchQuestions()
+    this.$store.commit('QnaStore/RESET_QUESTION')
   },
   computed: {
     ...Vuex.mapGetters('QnaStore', {

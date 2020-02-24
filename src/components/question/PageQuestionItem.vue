@@ -60,7 +60,10 @@
       </div>
     </div>
     <div v-else>
-      <p>Loading question ...</p>
+      <p><font-awesome-icon
+          :icon="['fas', 'spinner']" 
+          color="gray"
+          spin /> Loading question ...</p>
     </div>
   </div>
 </template>

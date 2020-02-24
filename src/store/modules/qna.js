@@ -65,6 +65,17 @@ const mutations = {
       const questionItem = state.questions.data[index]
       questionItem.is_votes_loading = false
     }
+  },
+  RESET_QUESTION (state) {
+    // question: {
+    //   questionItem: {},
+    //   is_question_votes_loading: false,
+    //   answers: [],
+    //   is_hidden_add_update_answer: true,
+    //   is_posting_answer: false
+    // }
+    state.question.questionItem = {}
+    state.question.answers = []
   }
 }
 
