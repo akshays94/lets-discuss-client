@@ -15,7 +15,9 @@ const state = getDefaultState()
 
 const getters = {
   getUser: (state) => state.user === null ? 'No user' : state.user.username,
-  getName: (state) => state.user === null ? 'No name' : `${state.user.firstname} ${state.user.lastname}`
+  getAuthToken: (state) => state.authToken,
+  getName: (state) => state.user === null ? 'No name' : `${state.user.firstname} ${state.user.lastname}`,
+  getUserId: (state) => state.user === null ? 'No user id' : state.user.id
 }
 
 const mutations = {

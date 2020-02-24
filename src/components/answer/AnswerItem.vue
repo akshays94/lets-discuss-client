@@ -48,9 +48,10 @@
     </div>
     <div class="a-box--details">
       <div class="a-box--details--answeredby">
-        Posted by <a href="">
+        Posted by 
+        <router-link :to="{ name: 'profile', params: { userId: answer.created_by.id } }">
           {{ answer.created_by.first_name }} {{ answer.created_by.last_name }}
-        </a>
+        </router-link>
         |
         <span :title="answer.created_on_date">
           {{ answer.created_on_humanized }} <span v-if="answer.created_on_humanized !== 'now'">ago</span>

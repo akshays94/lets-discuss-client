@@ -11,7 +11,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="page-footer font-small blue pt-4">
+    <footer class="page-footer font-small blue pt-4" style="color: lightgray">
       <div class="footer-copyright text-center py-3">© {{ new Date().getFullYear() }}:
         Made by Akshay
       </div>

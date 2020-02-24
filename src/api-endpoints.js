@@ -7,6 +7,18 @@ const endpoints = {
     method: 'post',
     url: '/login/'
   },
+  userDetails: {
+    method: 'get',
+    url: '/api/v1/users/:userId/'
+  },
+  leaderboard: {
+    method: 'get',
+    url: '/api/v1/leaderboard/'
+  },
+  userReputations: {
+    method: 'get',
+    url: '/api/v1/reputations/:userId/'
+  },
   questions: {
     method: 'get',
     url: '/api/v1/questions/'

@@ -41,9 +41,10 @@
         </div>
         <div class="q-box--details">
           <div class="q-box--details--askedby">
-            Asked by <a href="">
+            Asked by 
+            <router-link :to="{ name: 'profile', params: { userId: question.created_by.id } }">
               {{ questionAuthorName }}
-            </a>
+            </router-link>
             | 
             <span :title="question.created_on_date">
               {{ question.created_on_humanized }} <span v-if="question.created_on_humanized !== 'now'">ago</span>

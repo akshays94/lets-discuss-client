@@ -28,13 +28,19 @@
         </li> -->
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <!-- <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"> -->
         <a 
-          class="nav-link disabled" 
-          href="#" 
-          tabindex="-1" 
-          aria-disabled="true">
-          Hi, {{ name }}
+          class="nav-link viewprofile"
+          title="View Leaderboard"
+          @click.stop="viewLeaderboard()"
+          tabindex="-1">
+          Leaderboard
+        </a>
+        <a 
+          class="nav-link viewprofile"
+          :title="`View My Profile: ${name}`"
+          @click.stop="viewProfile()"
+          tabindex="-1">
+          My Profile
         </a>
         <button 
           class="btn btn-outline-success btn-sm my-2 my-sm-0" 
@@ -57,10 +63,29 @@ export default {
   props: [
     'name'
   ],
+  computed: {
+    ...Vuex.mapGetters('AuthStore', {
+      userId: 'getUserId'
+    })
+  },
   methods: {
     ...Vuex.mapActions('AuthStore', [
       'logoutUser'
-    ])
+    ]),
+    viewProfile () {
+      this.$router.push({ name: 'profile', params: { userId: this.userId } })
+    },
+    viewLeaderboard () {
+      this.$router.push({ name: 'leaderboard' })
+    }
   }
 }
 </script>
+
+<style scoped>
+.viewprofile {
+  text-decoration: underline;
+  cursor: pointer;
+  color: grey;
+}
+</style>

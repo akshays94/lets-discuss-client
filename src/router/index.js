@@ -7,6 +7,9 @@ import Question from '../views/Question.vue'
 import AddQuestion from '../views/AddQuestion.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import Profile from '../views/Profile.vue'
+import Leaderboard from '../views/Leaderboard.vue'
+
 import store from '../store'
 
 Vue.use(VueRouter)
@@ -54,6 +57,16 @@ const routes = [
         path: '/add-question',
         name: 'add-question',
         component: AddQuestion
+      },
+      {
+        path: '/profile/:userId',
+        name: 'profile',
+        component: Profile
+      },
+      {
+        path: '/leaderboard',
+        name: 'leaderboard',
+        component: Leaderboard
       }
     ]
   }  

@@ -468,7 +468,6 @@ const actions = {
     })
       .then(res => {
         // TODO: success message
-        alert('done')
         dispatch('fetchQuestion', {
           questionId
         })

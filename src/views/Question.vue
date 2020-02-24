@@ -7,7 +7,7 @@
       </div>
 
       <div class="col-sm-12">
-        <div class="answers">
+        <div class="answers" v-if="Object.keys(question).length > 0">
           <div class="answers--title">
             Answers ({{ answers.length }})
             <hr>
