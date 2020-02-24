@@ -25,10 +25,10 @@
                     @click="login()"
                     class="btn btn-primary"
                     id="login">
-                    <span v-if="!isTryingLogin">
+                    <span v-if="!isTryingLogin || isLoginAsGuest">
                       Login
                     </span>
-                    <span v-else>
+                    <span v-if="isTryingLogin && !isLoginAsGuest">
                       <font-awesome-icon
                       :icon="['fas', 'spinner']" 
                       color="white"
@@ -54,7 +54,7 @@
                       <span v-if="!isTryingLogin">
                         Login As Guest
                       </span>
-                      <span v-else>
+                      <span v-if="isTryingLogin && isLoginAsGuest">
                         <font-awesome-icon
                         :icon="['fas', 'spinner']" 
                         color="white"
@@ -74,7 +74,9 @@ export default {
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      isLoginAsGuest: false,
+      isLoginBtn: true
     }
   },
   computed: {
@@ -99,6 +101,7 @@ export default {
       this.loginUser(formData)
     },
     loginAsGuest () {
+      this.isLoginAsGuest = true
       const formData = {
         username: 'james.west',
         password: 'west'
