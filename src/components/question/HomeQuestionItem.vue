@@ -1,7 +1,7 @@
 <template>
   <div
     class="q-box">
-    <div>
+    <div class="q-box--actions">
       <div class="q-box--actions--1">      
         <div 
           class="q-box--actions--1--btn"
@@ -67,6 +67,21 @@
       </div>    
       <div class="q-box--details--content">
         {{ modifiedQuestionContent }}
+      </div>
+    </div>
+
+    <div class="q-box--answers">
+      <div 
+        class="q-box--answers--icon"
+        :class="{ correct: question.is_marked_correct_answer }">
+        <font-awesome-icon 
+          :icon="['fas', 'comment-alt']" 
+          size="lg" />
+      </div>
+      <div 
+        class="q-box--answers--number"
+        :class="{ correct: question.is_marked_correct_answer }">
+        {{ question.answers_count }}
       </div>
     </div>
   </div>
@@ -135,6 +150,10 @@ export default {
   box-shadow: 0 2px 3px 0 lightgray;
 }
 
+.q-box--actions {
+  flex-basis: 10%;
+}
+
 .q-box--actions--1 {
   /* border: 1px solid #dc3545; */
   padding-top: 12px;
@@ -186,6 +205,7 @@ export default {
 .q-box--details {
   /* border: 1px solid blue; */
   padding: 12px;
+  flex-basis: 90%;
 }
 
 .q-box--details--title {
@@ -201,5 +221,31 @@ export default {
 .q-box--details--askedby {
   font-size: 0.8em;
   color: grey;
+}
+
+.q-box--answers {
+  /* border: 1px solid lightgray; */
+  flex-basis: 10%;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.q-box--answers--icon {
+  margin-top: 2px;
+  color: lightgray;
+}
+
+.q-box--answers--icon.correct {
+  color: #28a745;
+}
+
+.q-box--answers--number {
+  margin-left: 8px;
+  color: lightgray;
+  font-weight: bold;
+}
+.q-box--answers--number.correct {
+  color: #28a745;
 }
 </style>

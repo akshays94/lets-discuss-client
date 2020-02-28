@@ -9,9 +9,9 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faCaretUp, faCaretDown, faCheck, faSpinner, faSignOutAlt, faStar } from '@fortawesome/free-solid-svg-icons'
+import { faCaretUp, faCaretDown, faCheck, faSpinner, faSignOutAlt, faStar, faCommentAlt } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faCaretUp, faCaretDown, faCheck, faSpinner, faSignOutAlt, faStar)
+library.add(faCaretUp, faCaretDown, faCheck, faSpinner, faSignOutAlt, faStar, faCommentAlt)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

@@ -16,18 +16,6 @@
             <label for="">Content</label>
             <textarea rows="10" placeholder="Enter content" class="form-control" style="min-width: 100%" v-model="content"></textarea>
           </div>
-          <!-- <div class="form-group">
-              <input 
-                v-model="title"
-                type="text" 
-                class="form-control" 
-                id="title" 
-                placeholder="Title">
-          </div> -->
-          <!-- <div class="form-group">
-              <label for="content">Content:</label>
-              <textarea v-model="content" name="" id="" cols="30" rows=""></textarea>
-          </div> -->
           <div class="align-center">
               <button
                 @click="saveQuestion()"
